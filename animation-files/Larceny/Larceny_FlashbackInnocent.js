@@ -2,7 +2,9 @@
 
 var p; // shortcut to reference prototypes
 var lib={};var ss={};var img={};
-lib.ssMetadata = [];
+lib.ssMetadata = [
+		{name:"Larceny_FlashbackInnocent_atlas_1", frames: [[0,0,1920,1080]]}
+];
 
 
 (lib.AnMovieClip = function(){
@@ -21,6 +23,13 @@ lib.ssMetadata = [];
 	}
 }).prototype = p = new cjs.MovieClip();
 // symbols:
+
+
+
+(lib.shoppingmallRecovered = function() {
+	this.initialize(ss["Larceny_FlashbackInnocent_atlas_1"]);
+	this.gotoAndStop(0);
+}).prototype = p = new cjs.Sprite();
 
 
 
@@ -3947,6 +3956,12 @@ if (reversed == null) { reversed = false; }
 
 	this.timeline.addTween(cjs.Tween.get(this.shape_961).to({_off:true},73).wait(89));
 
+	// Background
+	this.instance = new lib.shoppingmallRecovered();
+	this.instance._off = true;
+
+	this.timeline.addTween(cjs.Tween.get(this.instance).wait(73).to({_off:false},0).wait(89));
+
 	this._renderFirstFrame();
 
 }).prototype = p = new lib.AnMovieClip();
@@ -3959,7 +3974,9 @@ lib.properties = {
 	fps: 24,
 	color: "#FBEC97",
 	opacity: 1.00,
-	manifest: [],
+	manifest: [
+		{src:"images/Larceny_FlashbackInnocent_atlas_1.png", id:"Larceny_FlashbackInnocent_atlas_1"}
+	],
 	preloads: []
 };
 
