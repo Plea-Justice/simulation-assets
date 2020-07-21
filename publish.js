@@ -60,7 +60,7 @@ try {
     // Replace special colors with references to avatar palette colors.
     for (const color in palettables) {
         data = data.replace(
-            `graphics.f("${color}").s()`,
+            RegExp(`graphics\\.f\\("${color}"\\)\\.s\\(\\)`, 'gm'),
             `graphics.f(this.assetPalette.${palettables[color]}).s()`
         );
     }
