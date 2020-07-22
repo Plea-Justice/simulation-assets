@@ -83,6 +83,12 @@ try {
             RegExp( `(\\/\\/ ${figure}eyes(\\d)(.|\\n)*?)(^.*addTween)`, 'gm' ),
             `$1if (this.assetPalette.figure == ${i} && this.assetPalette.eyes == $2)$4`
         );
+
+        // Fix for separate glasses layer on figures.
+        data = data.replace(
+            RegExp( `(\\/\\/ ${figure}glasses(.|\\n)*?)(^.*addTween)`, 'gm' ),
+            `$1if (this.assetPalette.figure == ${i})$3`
+        );
     }
 
     // Replace references to cached bitmap images/ directory with assets/cached.
