@@ -84,9 +84,9 @@ try {
             `$1if (this.assetPalette.figure == ${i} && this.assetPalette.eyes == $2)$4`
         );
 
-        // Fix for separate glasses layer on figures.
+        // Fix for separate glasses layer on figures. Supports accessory layers on figure.
         data = data.replace(
-            RegExp( `(\\/\\/ ${figure}glasses(.|\\n)*?)(^.*addTween)`, 'gm' ),
+            RegExp( `(\\/\\/ ${figure}accessory\\d(.|\\n)*?)(^.*addTween)`, 'gm' ),
             `$1if (this.assetPalette.figure == ${i})$3`
         );
     }
