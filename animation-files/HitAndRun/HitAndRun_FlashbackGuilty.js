@@ -5,13 +5,36 @@ var lib={};var ss={};var img={};
 lib.ssMetadata = [];
 
 
+(lib.AnMovieClip = function(){
+	this.actionFrames = [];
+	this.gotoAndPlay = function(positionOrLabel){
+		cjs.MovieClip.prototype.gotoAndPlay.call(this,positionOrLabel);
+	}
+	this.play = function(){
+		cjs.MovieClip.prototype.play.call(this);
+	}
+	this.gotoAndStop = function(positionOrLabel){
+		cjs.MovieClip.prototype.gotoAndStop.call(this,positionOrLabel);
+	}
+	this.stop = function(){
+		cjs.MovieClip.prototype.stop.call(this);
+	}
+}).prototype = p = new cjs.MovieClip();
 // symbols:
 
 
 
 // stage content:
-(lib.Scenario1_FlashbackGuilty = function(mode,startPosition,loop) {
-if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{});
+(lib.HitAndRun_FlashbackGuilty = function(mode,startPosition,loop,reversed) {
+if (loop == null) { loop = false; }
+if (reversed == null) { reversed = false; }
+	var props = new Object();
+	props.mode = mode;
+	props.startPosition = startPosition;
+	props.labels = {};
+	props.loop = loop;
+	props.reversed = reversed;
+	cjs.MovieClip.apply(this,[props]);
 
 	// DreamCloud
 	this.shape = new cjs.Shape();
@@ -1347,7 +1370,7 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{});
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[]}).to({state:[{t:this.shape_285},{t:this.shape_284},{t:this.shape_283},{t:this.shape_282}]},45).to({state:[{t:this.shape_285},{t:this.shape_284},{t:this.shape_282}]},3).to({state:[{t:this.shape_285},{t:this.shape_284},{t:this.shape_282}]},4).to({state:[{t:this.shape_285},{t:this.shape_284},{t:this.shape_282}]},3).to({state:[{t:this.shape_285},{t:this.shape_284},{t:this.shape_282}]},12).to({state:[{t:this.shape_288},{t:this.shape_287},{t:this.shape_286}]},4).to({state:[{t:this.shape_291},{t:this.shape_290},{t:this.shape_289}]},3).to({state:[{t:this.shape_294,p:{x:666.071,y:158.5939}},{t:this.shape_293,p:{x:662.3638,y:161.9849}},{t:this.shape_292}]},3).to({state:[{t:this.shape_294,p:{x:667.921,y:161.0939}},{t:this.shape_293,p:{x:664.2138,y:164.4849}},{t:this.shape_295}]},4).to({state:[{t:this.shape_298,p:{x:678.7591,y:163.1264}},{t:this.shape_297,p:{x:676.05,y:165.6302}},{t:this.shape_296,p:{x:691.75,y:167.225}}]},3).to({state:[{t:this.shape_301},{t:this.shape_300},{t:this.shape_299}]},3).to({state:[{t:this.shape_304,p:{x:699.3879,y:193.1639}},{t:this.shape_303},{t:this.shape_302}]},3).to({state:[]},105).to({state:[{t:this.shape_304,p:{x:695.3379,y:194.5139}},{t:this.shape_306},{t:this.shape_305}]},45).to({state:[{t:this.shape_298,p:{x:674.7091,y:164.4764}},{t:this.shape_297,p:{x:672,y:166.9802}},{t:this.shape_296,p:{x:687.7,y:168.575}}]},4).to({state:[{t:this.shape_298,p:{x:674.7091,y:164.4764}},{t:this.shape_297,p:{x:672,y:166.9802}},{t:this.shape_296,p:{x:687.7,y:168.575}}]},3).to({state:[{t:this.shape_294,p:{x:663.871,y:162.4439}},{t:this.shape_293,p:{x:660.1638,y:165.8349}},{t:this.shape_307}]},3).to({state:[{t:this.shape_310},{t:this.shape_309},{t:this.shape_308}]},3).to({state:[{t:this.shape_313},{t:this.shape_312},{t:this.shape_311}]},2).to({state:[{t:this.shape_316},{t:this.shape_315},{t:this.shape_314}]},3).to({state:[{t:this.shape_319},{t:this.shape_318},{t:this.shape_317}]},4).to({state:[{t:this.shape_322},{t:this.shape_321},{t:this.shape_320}]},3).to({state:[{t:this.shape_325},{t:this.shape_324},{t:this.shape_323}]},3).to({state:[]},221).wait(39));
 
-	// figure0avatar
+	// figure0base
 	this.shape_326 = new cjs.Shape();
 	this.shape_326.graphics.f("#FFCC99").s().p("AJrNQQgigNg4ghIkri0Qheg5gtgnQhDg6gbhBQAHgEAHgFQAQgMAPgZIAXgrQAig8BchMQBqhZAggoQAWgbAcgxQAjg7AOgUQAZgjA6hBQA6hAAZgkQASgZAMgaIAEAEQAKALARAHIAgAJQA6APBHAZQAqAOBUAgQBQAeAkAWQBIArA+BTQA8BNAoBfQAOAiAAAVQAAAVgKAYQgHAPgPAZIh9DOQgyBVgjApQgfAlhKBAIhqBaIg4AqQgyAjghAHQgOADgQAAQgeAAgjgMgAlPEfQjthVg9gTQiYgwiogZQhBgJghgGQg4gJgogOQhtgjgxhMQEdjADiijQB0hUA1gwQA7g5AVgRQAUgQAdgUIAzghIBXg0QAygcAqgSQAngRA0gRIBbgdIA3gQQAfgIAZgDQA3gHAzANQA7AOBIAsQApAaBQA2IBTAyQAwAeAdAcQAlAkATArQAUAwgKAtQgGAZgOAbQgLARgVAdIi3D4QhLBng2A5QgwAzhqBcQhQBMglBEQgGgHgKgCQgLgDgHAFQgIAGgCALQhugbidg4g");
 	this.shape_326.setTransform(816.1,1088.7744);
@@ -3911,7 +3934,7 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{});
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[]}).to({state:[{t:this.shape_910},{t:this.shape_909},{t:this.shape_908}]},45).to({state:[{t:this.shape_910},{t:this.shape_912},{t:this.shape_911}]},3).to({state:[{t:this.shape_915},{t:this.shape_914},{t:this.shape_913}]},1).to({state:[{t:this.shape_918},{t:this.shape_917},{t:this.shape_916}]},6).to({state:[{t:this.shape_921},{t:this.shape_920},{t:this.shape_919}]},3).to({state:[{t:this.shape_924},{t:this.shape_923},{t:this.shape_922}]},3).to({state:[{t:this.shape_924},{t:this.shape_923},{t:this.shape_922}]},3).to({state:[{t:this.shape_924},{t:this.shape_923},{t:this.shape_922}]},8).to({state:[{t:this.shape_927},{t:this.shape_926},{t:this.shape_925}]},4).to({state:[{t:this.shape_931},{t:this.shape_930},{t:this.shape_929},{t:this.shape_928}]},3).to({state:[{t:this.shape_934},{t:this.shape_933},{t:this.shape_932}]},3).to({state:[]},113).to({state:[{t:this.shape_937},{t:this.shape_936},{t:this.shape_935}]},50).to({state:[{t:this.shape_931},{t:this.shape_930},{t:this.shape_929},{t:this.shape_928}]},3).to({state:[{t:this.shape_940},{t:this.shape_939},{t:this.shape_938}]},3).to({state:[{t:this.shape_943},{t:this.shape_942},{t:this.shape_941}]},4).to({state:[{t:this.shape_946},{t:this.shape_945},{t:this.shape_944}]},2).to({state:[{t:this.shape_949},{t:this.shape_948},{t:this.shape_947}]},3).to({state:[{t:this.shape_952},{t:this.shape_951},{t:this.shape_950}]},3).to({state:[{t:this.shape_955},{t:this.shape_954},{t:this.shape_953}]},4).to({state:[{t:this.shape_958},{t:this.shape_957},{t:this.shape_956,p:{x:498.8895}}]},3).to({state:[{t:this.shape_960},{t:this.shape_959},{t:this.shape_956,p:{x:438.3895}}]},3).to({state:[]},216).to({state:[]},1).wait(38));
 
-	// figure1avatar
+	// figure1base
 	this.shape_961 = new cjs.Shape();
 	this.shape_961.graphics.f("#FFCC99").s().p("AJrNQQgigNg4ghIkri0Qheg5gtgnQhDg6gbhBQAHgEAHgFQAQgMAPgZIAXgrQAig8BchMQBqhZAggoQAWgbAcgxQAjg7AOgUQAZgjA6hBQA6hAAZgkQASgZAMgaIAEAEQAKALARAHIAgAJQA6APBHAZQAqAOBUAgQBQAeAkAWQBIArA+BTQA8BNAoBfQAOAiAAAVQAAAVgKAYQgHAPgPAZIh9DOQgyBVgjApQgfAlhKBAIhqBaIg4AqQgyAjghAHQgOADgQAAQgeAAgjgMgAlPEfQjthVg9gTQiYgwiogZQhBgJghgGQg4gJgogOQhtgjgxhMQEdjADiijQB0hUA1gwQA7g5AVgRQAUgQAdgUIAzghIBXg0QAygcAqgSQAngRA0gRIBbgdIA3gQQAfgIAZgDQA3gHAzANQA7AOBIAsQApAaBQA2IBTAyQAwAeAdAcQAlAkATArQAUAwgKAtQgGAZgOAbQgLARgVAdIi3D4QhLBng2A5QgwAzhqBcQhQBMglBEQgGgHgKgCQgLgDgHAFQgIAGgCALQhugbidg4g");
 	this.shape_961.setTransform(816.1,1088.7744);
@@ -5700,7 +5723,7 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{});
 
 	this._renderFirstFrame();
 
-}).prototype = p = new cjs.MovieClip();
+}).prototype = p = new lib.AnMovieClip();
 p.nominalBounds = new cjs.Rectangle(321.1,316.3,2104.6,1289.2);
 // library properties:
 lib.properties = {
@@ -5720,7 +5743,7 @@ lib.properties = {
 
 (lib.Stage = function(canvas) {
 	createjs.Stage.call(this, canvas);
-}).prototype = p = new createjs.StageGL();
+}).prototype = p = new createjs.Stage();
 
 p.setAutoPlay = function(autoPlay) {
 	this.tickEnabled = autoPlay;
@@ -5788,19 +5811,27 @@ an.makeResponsive = function(isResp, respDim, isScale, scaleType, domContainers)
 			else if(scaleType==2) {					
 				sRatio = Math.max(xRatio, yRatio);				
 			}			
-		}			
+		}
 		domContainers[0].width = w * pRatio * sRatio;			
-		domContainers[0].height = h * pRatio * sRatio;			
+		domContainers[0].height = h * pRatio * sRatio;
 		domContainers.forEach(function(container) {				
 			container.style.width = w * sRatio + 'px';				
 			container.style.height = h * sRatio + 'px';			
-		});			
+		});
 		stage.scaleX = pRatio*sRatio;			
-		stage.scaleY = pRatio*sRatio;			
+		stage.scaleY = pRatio*sRatio;
 		lastW = iw; lastH = ih; lastS = sRatio;            
 		stage.tickOnUpdate = false;            
 		stage.update();            
 		stage.tickOnUpdate = true;		
+	}
+}
+an.handleSoundStreamOnTick = function(event) {
+	if(!event.paused){
+		var stageChild = stage.getChildAt(0);
+		if(!stageChild.paused){
+			stageChild.syncStreamSounds();
+		}
 	}
 }
 

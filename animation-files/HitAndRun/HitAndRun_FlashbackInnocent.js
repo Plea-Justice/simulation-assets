@@ -5,13 +5,36 @@ var lib={};var ss={};var img={};
 lib.ssMetadata = [];
 
 
+(lib.AnMovieClip = function(){
+	this.actionFrames = [];
+	this.gotoAndPlay = function(positionOrLabel){
+		cjs.MovieClip.prototype.gotoAndPlay.call(this,positionOrLabel);
+	}
+	this.play = function(){
+		cjs.MovieClip.prototype.play.call(this);
+	}
+	this.gotoAndStop = function(positionOrLabel){
+		cjs.MovieClip.prototype.gotoAndStop.call(this,positionOrLabel);
+	}
+	this.stop = function(){
+		cjs.MovieClip.prototype.stop.call(this);
+	}
+}).prototype = p = new cjs.MovieClip();
 // symbols:
 
 
 
 // stage content:
-(lib.Scenario1_FlashbackInnocent = function(mode,startPosition,loop) {
-if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{});
+(lib.HitAndRun_FlashbackInnocent = function(mode,startPosition,loop,reversed) {
+if (loop == null) { loop = false; }
+if (reversed == null) { reversed = false; }
+	var props = new Object();
+	props.mode = mode;
+	props.startPosition = startPosition;
+	props.labels = {};
+	props.loop = loop;
+	props.reversed = reversed;
+	cjs.MovieClip.apply(this,[props]);
 
 	// DreamCloud
 	this.shape = new cjs.Shape();
@@ -1507,7 +1530,7 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{});
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[]}).to({state:[{t:this.shape_320,p:{x:663.8134,y:162.2226}},{t:this.shape_319,p:{x:656.913,y:163.7402}},{t:this.shape_318},{t:this.shape_317,p:{x:675.4239,y:164.7}}]},45).to({state:[{t:this.shape_320,p:{x:663.8134,y:162.2226}},{t:this.shape_319,p:{x:656.913,y:163.7402}},{t:this.shape_317,p:{x:675.4239,y:164.7}}]},3).to({state:[{t:this.shape_320,p:{x:663.8134,y:162.2226}},{t:this.shape_319,p:{x:656.913,y:163.7402}},{t:this.shape_317,p:{x:675.4239,y:164.7}}]},4).to({state:[{t:this.shape_320,p:{x:663.8134,y:162.2226}},{t:this.shape_319,p:{x:656.913,y:163.7402}},{t:this.shape_317,p:{x:675.4239,y:164.7}}]},3).to({state:[{t:this.shape_320,p:{x:663.8134,y:162.2226}},{t:this.shape_319,p:{x:656.913,y:163.7402}},{t:this.shape_317,p:{x:675.4239,y:164.7}}]},12).to({state:[{t:this.shape_323,p:{x:661.8281,y:162.9214}},{t:this.shape_322,p:{x:660.225,y:165.56}},{t:this.shape_321,p:{x:678.5,y:167.1523}}]},4).to({state:[{t:this.shape_326},{t:this.shape_325,p:{x:661.875,y:162.7348}},{t:this.shape_324}]},3).to({state:[{t:this.shape_329,p:{x:666.071,y:158.5939}},{t:this.shape_328,p:{x:662.3638,y:161.9849}},{t:this.shape_327}]},3).to({state:[{t:this.shape_329,p:{x:667.921,y:161.0939}},{t:this.shape_328,p:{x:664.2138,y:164.4849}},{t:this.shape_330}]},4).to({state:[{t:this.shape_333,p:{x:678.7591,y:163.1264}},{t:this.shape_332,p:{x:676.05,y:165.6302}},{t:this.shape_331,p:{x:691.75,y:167.225}}]},3).to({state:[{t:this.shape_336},{t:this.shape_335},{t:this.shape_334}]},3).to({state:[{t:this.shape_339,p:{x:699.3879,y:193.1639}},{t:this.shape_338},{t:this.shape_337}]},3).to({state:[]},48).to({state:[{t:this.shape_339,p:{x:695.3379,y:194.5139}},{t:this.shape_341},{t:this.shape_340}]},102).to({state:[{t:this.shape_333,p:{x:674.7091,y:164.4764}},{t:this.shape_332,p:{x:672,y:166.9802}},{t:this.shape_331,p:{x:687.7,y:168.575}}]},4).to({state:[{t:this.shape_333,p:{x:674.7091,y:164.4764}},{t:this.shape_332,p:{x:672,y:166.9802}},{t:this.shape_331,p:{x:687.7,y:168.575}}]},3).to({state:[{t:this.shape_329,p:{x:663.871,y:162.4439}},{t:this.shape_328,p:{x:660.1638,y:165.8349}},{t:this.shape_342}]},3).to({state:[{t:this.shape_345},{t:this.shape_344},{t:this.shape_343}]},3).to({state:[{t:this.shape_348},{t:this.shape_347},{t:this.shape_346}]},2).to({state:[{t:this.shape_351},{t:this.shape_350},{t:this.shape_349}]},3).to({state:[{t:this.shape_354},{t:this.shape_353},{t:this.shape_352}]},4).to({state:[{t:this.shape_357},{t:this.shape_356},{t:this.shape_355}]},3).to({state:[{t:this.shape_360},{t:this.shape_359},{t:this.shape_358}]},3).to({state:[{t:this.shape_363},{t:this.shape_362},{t:this.shape_361}]},3).to({state:[]},8).to({state:[{t:this.shape_320,p:{x:661.1134,y:170.3226}},{t:this.shape_319,p:{x:654.213,y:171.8402}},{t:this.shape_318},{t:this.shape_317,p:{x:672.7239,y:172.8}}]},77).to({state:[{t:this.shape_320,p:{x:661.1134,y:170.3226}},{t:this.shape_319,p:{x:654.213,y:171.8402}},{t:this.shape_317,p:{x:672.7239,y:172.8}}]},3).to({state:[{t:this.shape_320,p:{x:661.1134,y:170.3226}},{t:this.shape_319,p:{x:654.213,y:171.8402}},{t:this.shape_317,p:{x:672.7239,y:172.8}}]},4).to({state:[{t:this.shape_320,p:{x:661.1134,y:170.3226}},{t:this.shape_319,p:{x:654.213,y:171.8402}},{t:this.shape_317,p:{x:672.7239,y:172.8}}]},3).to({state:[{t:this.shape_320,p:{x:661.1134,y:170.3226}},{t:this.shape_319,p:{x:654.213,y:171.8402}},{t:this.shape_317,p:{x:672.7239,y:172.8}}]},12).to({state:[{t:this.shape_323,p:{x:659.1281,y:171.0214}},{t:this.shape_322,p:{x:657.525,y:173.66}},{t:this.shape_321,p:{x:675.8,y:175.2523}}]},4).to({state:[{t:this.shape_365},{t:this.shape_325,p:{x:659.175,y:170.8348}},{t:this.shape_364}]},3).wait(84));
 
-	// figure0avatar
+	// figure0base
 	this.shape_366 = new cjs.Shape();
 	this.shape_366.graphics.f("#FFCC99").s().p("AJrNQQgigNg4ghIkri0Qheg5gtgnQhDg6gbhBQAHgEAHgFQAQgMAPgZIAXgrQAig8BchMQBqhZAggoQAWgbAcgxQAjg7AOgUQAZgjA6hBQA6hAAZgkQASgZAMgaIAEAEQAKALARAHIAgAJQA6APBHAZQAqAOBUAgQBQAeAkAWQBIArA+BTQA8BNAoBfQAOAiAAAVQAAAVgKAYQgHAPgPAZIh9DOQgyBVgjApQgfAlhKBAIhqBaIg4AqQgyAjghAHQgOADgQAAQgeAAgjgMgAlPEfQjthVg9gTQiYgwiogZQhBgJghgGQg4gJgogOQhtgjgxhMQEdjADiijQB0hUA1gwQA7g5AVgRQAUgQAdgUIAzghIBXg0QAygcAqgSQAngRA0gRIBbgdIA3gQQAfgIAZgDQA3gHAzANQA7AOBIAsQApAaBQA2IBTAyQAwAeAdAcQAlAkATArQAUAwgKAtQgGAZgOAbQgLARgVAdIi3D4QhLBng2A5QgwAzhqBcQhQBMglBEQgGgHgKgCQgLgDgHAFQgIAGgCALQhugbidg4g");
 	this.shape_366.setTransform(816.1,1088.7744);
@@ -4499,7 +4522,7 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{});
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[]}).to({state:[{t:this.shape_1054},{t:this.shape_1053},{t:this.shape_1052}]},45).to({state:[{t:this.shape_1054},{t:this.shape_1056},{t:this.shape_1055}]},3).to({state:[{t:this.shape_1059},{t:this.shape_1058},{t:this.shape_1057}]},1).to({state:[{t:this.shape_1062},{t:this.shape_1061},{t:this.shape_1060}]},6).to({state:[{t:this.shape_1065},{t:this.shape_1064},{t:this.shape_1063}]},3).to({state:[{t:this.shape_1068},{t:this.shape_1067},{t:this.shape_1066}]},3).to({state:[{t:this.shape_1068},{t:this.shape_1067},{t:this.shape_1066}]},3).to({state:[{t:this.shape_1068},{t:this.shape_1067},{t:this.shape_1066}]},8).to({state:[{t:this.shape_1071},{t:this.shape_1070},{t:this.shape_1069}]},4).to({state:[{t:this.shape_1075},{t:this.shape_1074},{t:this.shape_1073},{t:this.shape_1072}]},3).to({state:[{t:this.shape_1078},{t:this.shape_1077},{t:this.shape_1076}]},3).to({state:[]},56).to({state:[{t:this.shape_1081},{t:this.shape_1080},{t:this.shape_1079}]},102).to({state:[{t:this.shape_1075},{t:this.shape_1074},{t:this.shape_1073},{t:this.shape_1072}]},3).to({state:[{t:this.shape_1084},{t:this.shape_1083},{t:this.shape_1082}]},3).to({state:[{t:this.shape_1087},{t:this.shape_1086},{t:this.shape_1085}]},4).to({state:[{t:this.shape_1090},{t:this.shape_1089},{t:this.shape_1088}]},2).to({state:[{t:this.shape_1093},{t:this.shape_1092},{t:this.shape_1091}]},3).to({state:[{t:this.shape_1096},{t:this.shape_1095},{t:this.shape_1094}]},3).to({state:[{t:this.shape_1099},{t:this.shape_1098},{t:this.shape_1097}]},4).to({state:[{t:this.shape_1102},{t:this.shape_1101},{t:this.shape_1100,p:{x:498.8895}}]},3).to({state:[{t:this.shape_1104},{t:this.shape_1103},{t:this.shape_1100,p:{x:438.3895}}]},3).to({state:[{t:this.shape_1107},{t:this.shape_1106},{t:this.shape_1105}]},3).to({state:[]},8).to({state:[{t:this.shape_1054},{t:this.shape_1053},{t:this.shape_1052}]},77).to({state:[{t:this.shape_1054},{t:this.shape_1056},{t:this.shape_1055}]},3).to({state:[{t:this.shape_1059},{t:this.shape_1058},{t:this.shape_1057}]},1).to({state:[{t:this.shape_1062},{t:this.shape_1061},{t:this.shape_1060}]},6).wait(103));
 
-	// figure1avatar
+	// figure1base
 	this.shape_1108 = new cjs.Shape();
 	this.shape_1108.graphics.f("#FFCC99").s().p("AJrNQQgigNg4ghIkri0Qheg5gtgnQhDg6gbhBQAHgEAHgFQAQgMAPgZIAXgrQAig8BchMQBqhZAggoQAWgbAcgxQAjg7AOgUQAZgjA6hBQA6hAAZgkQASgZAMgaIAEAEQAKALARAHIAgAJQA6APBHAZQAqAOBUAgQBQAeAkAWQBIArA+BTQA8BNAoBfQAOAiAAAVQAAAVgKAYQgHAPgPAZIh9DOQgyBVgjApQgfAlhKBAIhqBaIg4AqQgyAjghAHQgOADgQAAQgeAAgjgMgAlPEfQjthVg9gTQiYgwiogZQhBgJghgGQg4gJgogOQhtgjgxhMQEdjADiijQB0hUA1gwQA7g5AVgRQAUgQAdgUIAzghIBXg0QAygcAqgSQAngRA0gRIBbgdIA3gQQAfgIAZgDQA3gHAzANQA7AOBIAsQApAaBQA2IBTAyQAwAeAdAcQAlAkATArQAUAwgKAtQgGAZgOAbQgLARgVAdIi3D4QhLBng2A5QgwAzhqBcQhQBMglBEQgGgHgKgCQgLgDgHAFQgIAGgCALQhugbidg4g");
 	this.shape_1108.setTransform(816.1,1088.7744);
@@ -6577,7 +6600,7 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{});
 
 	this._renderFirstFrame();
 
-}).prototype = p = new cjs.MovieClip();
+}).prototype = p = new lib.AnMovieClip();
 p.nominalBounds = new cjs.Rectangle(321.1,154.1,2104.6,1451.4);
 // library properties:
 lib.properties = {
@@ -6597,7 +6620,7 @@ lib.properties = {
 
 (lib.Stage = function(canvas) {
 	createjs.Stage.call(this, canvas);
-}).prototype = p = new createjs.StageGL();
+}).prototype = p = new createjs.Stage();
 
 p.setAutoPlay = function(autoPlay) {
 	this.tickEnabled = autoPlay;
@@ -6665,19 +6688,27 @@ an.makeResponsive = function(isResp, respDim, isScale, scaleType, domContainers)
 			else if(scaleType==2) {					
 				sRatio = Math.max(xRatio, yRatio);				
 			}			
-		}			
+		}
 		domContainers[0].width = w * pRatio * sRatio;			
-		domContainers[0].height = h * pRatio * sRatio;			
+		domContainers[0].height = h * pRatio * sRatio;
 		domContainers.forEach(function(container) {				
 			container.style.width = w * sRatio + 'px';				
 			container.style.height = h * sRatio + 'px';			
-		});			
+		});
 		stage.scaleX = pRatio*sRatio;			
-		stage.scaleY = pRatio*sRatio;			
+		stage.scaleY = pRatio*sRatio;
 		lastW = iw; lastH = ih; lastS = sRatio;            
 		stage.tickOnUpdate = false;            
 		stage.update();            
 		stage.tickOnUpdate = true;		
+	}
+}
+an.handleSoundStreamOnTick = function(event) {
+	if(!event.paused){
+		var stageChild = stage.getChildAt(0);
+		if(!stageChild.paused){
+			stageChild.syncStreamSounds();
+		}
 	}
 }
 
