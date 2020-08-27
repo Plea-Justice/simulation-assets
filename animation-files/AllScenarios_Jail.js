@@ -6,137 +6,34 @@ lib.ssMetadata = [];
 
 
 (lib.AnMovieClip = function(){
-	this.currentSoundStreamInMovieclip;
 	this.actionFrames = [];
-	this.soundStreamDuration = new Map();
-	this.streamSoundSymbolsList = [];
-
-	this.gotoAndPlayForStreamSoundSync = function(positionOrLabel){
-		cjs.MovieClip.prototype.gotoAndPlay.call(this,positionOrLabel);
-	}
 	this.gotoAndPlay = function(positionOrLabel){
-		this.clearAllSoundStreams();
-		this.startStreamSoundsForTargetedFrame(positionOrLabel);
 		cjs.MovieClip.prototype.gotoAndPlay.call(this,positionOrLabel);
 	}
 	this.play = function(){
-		this.clearAllSoundStreams();
-		this.startStreamSoundsForTargetedFrame(this.currentFrame);
 		cjs.MovieClip.prototype.play.call(this);
 	}
 	this.gotoAndStop = function(positionOrLabel){
 		cjs.MovieClip.prototype.gotoAndStop.call(this,positionOrLabel);
-		this.clearAllSoundStreams();
 	}
 	this.stop = function(){
 		cjs.MovieClip.prototype.stop.call(this);
-		this.clearAllSoundStreams();
-	}
-	this.startStreamSoundsForTargetedFrame = function(targetFrame){
-		for(var index=0; index<this.streamSoundSymbolsList.length; index++){
-			if(index <= targetFrame && this.streamSoundSymbolsList[index] != undefined){
-				for(var i=0; i<this.streamSoundSymbolsList[index].length; i++){
-					var sound = this.streamSoundSymbolsList[index][i];
-					if(sound.endFrame > targetFrame){
-						var targetPosition = Math.abs((((targetFrame - sound.startFrame)/lib.properties.fps) * 1000));
-						var instance = playSound(sound.id);
-						var remainingLoop = 0;
-						if(sound.offset){
-							targetPosition = targetPosition + sound.offset;
-						}
-						else if(sound.loop > 1){
-							var loop = targetPosition /instance.duration;
-							remainingLoop = Math.floor(sound.loop - loop);
-							if(targetPosition == 0){ remainingLoop -= 1; }
-							targetPosition = targetPosition % instance.duration;
-						}
-						instance.loop = remainingLoop;
-						instance.position = Math.round(targetPosition);
-						this.InsertIntoSoundStreamData(instance, sound.startFrame, sound.endFrame, sound.loop , sound.offset);
-					}
-				}
-			}
-		}
-	}
-	this.InsertIntoSoundStreamData = function(soundInstance, startIndex, endIndex, loopValue, offsetValue){ 
- 		this.soundStreamDuration.set({instance:soundInstance}, {start: startIndex, end:endIndex, loop:loopValue, offset:offsetValue});
-	}
-	this.clearAllSoundStreams = function(){
-		var keys = this.soundStreamDuration.keys();
-		for(var i = 0;i<this.soundStreamDuration.size; i++){
-			var key = keys.next().value;
-			key.instance.stop();
-		}
- 		this.soundStreamDuration.clear();
-		this.currentSoundStreamInMovieclip = undefined;
-	}
-	this.stopSoundStreams = function(currentFrame){
-		if(this.soundStreamDuration.size > 0){
-			var keys = this.soundStreamDuration.keys();
-			for(var i = 0; i< this.soundStreamDuration.size ; i++){
-				var key = keys.next().value; 
-				var value = this.soundStreamDuration.get(key);
-				if((value.end) == currentFrame){
-					key.instance.stop();
-					if(this.currentSoundStreamInMovieclip == key) { this.currentSoundStreamInMovieclip = undefined; }
-					this.soundStreamDuration.delete(key);
-				}
-			}
-		}
-	}
-
-	this.computeCurrentSoundStreamInstance = function(currentFrame){
-		if(this.currentSoundStreamInMovieclip == undefined){
-			if(this.soundStreamDuration.size > 0){
-				var keys = this.soundStreamDuration.keys();
-				var maxDuration = 0;
-				for(var i=0;i<this.soundStreamDuration.size;i++){
-					var key = keys.next().value;
-					var value = this.soundStreamDuration.get(key);
-					if(value.end > maxDuration){
-						maxDuration = value.end;
-						this.currentSoundStreamInMovieclip = key;
-					}
-				}
-			}
-		}
-	}
-	this.getDesiredFrame = function(currentFrame, calculatedDesiredFrame){
-		for(var frameIndex in this.actionFrames){
-			if((frameIndex > currentFrame) && (frameIndex < calculatedDesiredFrame)){
-				return frameIndex;
-			}
-		}
-		return calculatedDesiredFrame;
-	}
-
-	this.syncStreamSounds = function(){
-		this.stopSoundStreams(this.currentFrame);
-		this.computeCurrentSoundStreamInstance(this.currentFrame);
-		if(this.currentSoundStreamInMovieclip != undefined){
-			var soundInstance = this.currentSoundStreamInMovieclip.instance;
-			if(soundInstance.position != 0){
-				var soundValue = this.soundStreamDuration.get(this.currentSoundStreamInMovieclip);
-				var soundPosition = (soundValue.offset?(soundInstance.position - soundValue.offset): soundInstance.position);
-				var calculatedDesiredFrame = (soundValue.start)+((soundPosition/1000) * lib.properties.fps);
-				if(soundValue.loop > 1){
-					calculatedDesiredFrame +=(((((soundValue.loop - soundInstance.loop -1)*soundInstance.duration)) / 1000) * lib.properties.fps);
-				}
-				calculatedDesiredFrame = Math.floor(calculatedDesiredFrame);
-				var deltaFrame = calculatedDesiredFrame - this.currentFrame;
-				if(deltaFrame >= 2){
-					this.gotoAndPlayForStreamSoundSync(this.getDesiredFrame(this.currentFrame,calculatedDesiredFrame));
-				}
-			}
-		}
 	}
 }).prototype = p = new cjs.MovieClip();
 // symbols:
 
 
 
-(lib.Tween13 = function(mode,startPosition,loop) {
-	this.initialize(mode,startPosition,loop,{});
+(lib.Tween13 = function(mode,startPosition,loop,reversed) {
+if (loop == null) { loop = true; }
+if (reversed == null) { reversed = false; }
+	var props = new Object();
+	props.mode = mode;
+	props.startPosition = startPosition;
+	props.labels = {};
+	props.loop = loop;
+	props.reversed = reversed;
+	cjs.MovieClip.apply(this,[props]);
 
 	// Layer_1
 	this.shape = new cjs.Shape();
@@ -195,8 +92,16 @@ lib.ssMetadata = [];
 p.nominalBounds = new cjs.Rectangle(-1927.7,-214.8,3855.4,464.20000000000005);
 
 
-(lib.Tween11 = function(mode,startPosition,loop) {
-	this.initialize(mode,startPosition,loop,{});
+(lib.Tween11 = function(mode,startPosition,loop,reversed) {
+if (loop == null) { loop = true; }
+if (reversed == null) { reversed = false; }
+	var props = new Object();
+	props.mode = mode;
+	props.startPosition = startPosition;
+	props.labels = {};
+	props.loop = loop;
+	props.reversed = reversed;
+	cjs.MovieClip.apply(this,[props]);
 
 	// Layer_1
 	this.shape = new cjs.Shape();
@@ -216,18 +121,16 @@ p.nominalBounds = new cjs.Rectangle(-1369.5,-658.1,2739,1316.3000000000002);
 
 
 // stage content:
-(lib.AllScenarios_Jail = function(mode,startPosition,loop) {
-if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{});
-
-	this.actionFrames = [0];
-	// timeline functions:
-	this.frame_0 = function() {
-		this.clearAllSoundStreams();
-		 
-	}
-
-	// actions tween:
-	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(190));
+(lib.AllScenarios_Jail = function(mode,startPosition,loop,reversed) {
+if (loop == null) { loop = false; }
+if (reversed == null) { reversed = false; }
+	var props = new Object();
+	props.mode = mode;
+	props.startPosition = startPosition;
+	props.labels = {};
+	props.loop = loop;
+	props.reversed = reversed;
+	cjs.MovieClip.apply(this,[props]);
 
 	// figure0hair3
 	this.shape = new cjs.Shape();
@@ -277,7 +180,7 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{});
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_8},{t:this.shape_7},{t:this.shape_6}]}).wait(190));
 
-	// figure0avatar
+	// figure0base
 	this.shape_9 = new cjs.Shape();
 	this.shape_9.graphics.f("#E5CCFF").s().p("EgYbAzxIAMADIgMgDIgBg2QAPjEAskeQBCmrAPiLQA4ojhMqrQgvmdiUsmIAAgBQC1EfCqE2QBdCpAeAxQBHB5BFBXQAXAdATALQAJAFALAEQBWATC5g4QB7goEghZQE6hqDFhtQBrg7B6hWQBSg7B+hiIAEgBQAMgDAYAAIHDBmQEaBADBASQBOAIBWADQgCAKgBAMQgQH1AvH1QAQCnAeDuQAqFPBxNnQAQB6ALBCQARBnAUBRIgBABIgCADQhMARiIA4QiPA7hJARQhMAShjAEQgfACgvAAQl7AHlNAAQ8eAAmzjbgA9WqDQg0ibhck1IjksDIACgBQgriyANhuQAHhEAdhTQAxiHBQhbQAkgpBVhHIHxmgQAsgmAUgSQAXgWARgVIANAHIARAHIE8B+QEjB0AfAPIAVAIQGMClCyCEQCxCEA6BVIA8BZQCFkOBoiCQA4hEAsggQANgJAsgaIAcgRQAFAAAHgDIAQgMIAFgDIABgCIAIgFQAHgEAYAAQAZABAXAqQAXAqAfEAIAHAkQAMgdAVgtQAihHAeg6ICzlcQAQgeAFgPQAKgagCgWQgBgPgOgrQgMglgDg4IgDhBQASAJAhAMQB3ArDlAJQDmAJBMAJQBvAOA6AmQA5AkAnBJQAZAvAdBbQAWBDAKAlQAYBfAKB8QAAAHADAGIADADIAFArQAEAeAPBXIAYCDQA4E+AmCgIABAGIgEAGQgDAIAAAGIgDAGIgTApQgNAdgCAKIAAAGIgrAYIgvAYIAHgfQACgNgBgHQgBgKgFgKQgJgRgOgHQgSgLgQAKQgEACgJAIIgFAFQjFBnhsAEIhtADIgBAAIgCABQgNiJgTiBQgFgkgHglQgPhLgeh2IAAgBIgliOQgShHgOgnIAAAAIACgHQAHgZAfgkQAXgZAZgYQAFgEAPhFIAZhuQAJgrgkBvQgkBuglAmQglAlgLAbQgDAIhPjRQARBQAxCJQAxCJAJAqIAUBSQAeByAMBEQAPBMANBqIATCtQgyAshUBIIADgDIilCQQgfAcgfAiIggAiQgbAdgMAQQgTAagJAYQgDAJgGAcQgFAYgGANQgDAIgPAWQgEAHhwB1QgaApjjA7IgPAEIAAAAIgeAHQgRAIglAJQi4AwgPACIhZAaIgGACIgBAAIieAoQgcgMgZgHQh1gihdgyIg+gjIjIh0QgigTgTgIQgfgMgbACQgdADgsAbQhTAyhGA7IhumiQgiiAgPhCQgZhsgQhvQgRhugcirQgciqAUCwQATCwgigeQgVgSgtgeQgJgFhLgoQhLgnA1ApQA1AoAtAYQAuAXAdAnQAXAeANAuQAHAYAKA6QAdCdBPEkIATBGIgBgFQBLEZBBCfQiZAGiIAkQiIAliKAxQiJAwhIAoQg7AhhrBOQhHA0ghAiQgRARgUAbIgjAvQhZjGhVkAgAp+rzIABAAIgDgOIACAOgEABggmAQgjgpg8gxQiHhvizhjQiFhIiuhLIr1lLQBxiBFxjAIAFACQAQAJgCAfIAAAeQAGAWALAVQATAmAiAhQAcAcApAaQAbASAyAcQB2BDBTAoQFLCjFtBMIBeAUICUAkQAdAHATACQiOB/hNBuQhcCCg5CQQgRg3gug2gEALwgqnIgWhWIgBAAQgfhMgdgBIggAAQBujlgGhEQgGhJgkisICTAeQBEAPBngCQgBBwAcBtQAJAhgCAPQgBARgQAiIkCIAg");
 	this.shape_9.setTransform(344.5589,907.0516);
@@ -356,7 +259,7 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{});
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_24},{t:this.shape_23}]}).wait(190));
 
-	// figure1avatar
+	// figure1base
 	this.shape_25 = new cjs.Shape();
 	this.shape_25.graphics.f("#F49E50").s().p("AgmBIQhWgWgIgBIgegFQgNgBgLABIADgCQARgIAZgJIBTgcQAWgIAQgDQALgBARABIAdACQAgAAAegQQANgIAHACQAEABAHAGQANAKAPAGQAGADAXADIg0AyQgQASgQAHQgdAMgmAAQgiAAgogKgAh6gFIA6gpQAagVAKgGQAKgFAPADIAAAAQBFAbAkgeQAPgRA6BPQgcgEgPgSQgPgSgXAPQgYAOgRAEQgQAFgbgGQgbgGgOABQgPABgkAQIhKAhQAYgUAKgGg");
 	this.shape_25.setTransform(411.425,547.2276);
@@ -568,15 +471,15 @@ an.makeResponsive = function(isResp, respDim, isScale, scaleType, domContainers)
 			else if(scaleType==2) {					
 				sRatio = Math.max(xRatio, yRatio);				
 			}			
-		}			
+		}
 		domContainers[0].width = w * pRatio * sRatio;			
-		domContainers[0].height = h * pRatio * sRatio;			
+		domContainers[0].height = h * pRatio * sRatio;
 		domContainers.forEach(function(container) {				
 			container.style.width = w * sRatio + 'px';				
 			container.style.height = h * sRatio + 'px';			
-		});			
+		});
 		stage.scaleX = pRatio*sRatio;			
-		stage.scaleY = pRatio*sRatio;			
+		stage.scaleY = pRatio*sRatio;
 		lastW = iw; lastH = ih; lastS = sRatio;            
 		stage.tickOnUpdate = false;            
 		stage.update();            
