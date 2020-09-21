@@ -5,13 +5,36 @@ var lib={};var ss={};var img={};
 lib.ssMetadata = [];
 
 
+(lib.AnMovieClip = function(){
+	this.actionFrames = [];
+	this.gotoAndPlay = function(positionOrLabel){
+		cjs.MovieClip.prototype.gotoAndPlay.call(this,positionOrLabel);
+	}
+	this.play = function(){
+		cjs.MovieClip.prototype.play.call(this);
+	}
+	this.gotoAndStop = function(positionOrLabel){
+		cjs.MovieClip.prototype.gotoAndStop.call(this,positionOrLabel);
+	}
+	this.stop = function(){
+		cjs.MovieClip.prototype.stop.call(this);
+	}
+}).prototype = p = new cjs.MovieClip();
 // symbols:
 
 
 
 // stage content:
-(lib.Scenario1_SecurityFootage = function(mode,startPosition,loop) {
-if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{});
+(lib.HitAndRun_SecurityFootage = function(mode,startPosition,loop,reversed) {
+if (loop == null) { loop = false; }
+if (reversed == null) { reversed = false; }
+	var props = new Object();
+	props.mode = mode;
+	props.startPosition = startPosition;
+	props.labels = {};
+	props.loop = loop;
+	props.reversed = reversed;
+	cjs.MovieClip.apply(this,[props]);
 
 	// tv
 	this.shape = new cjs.Shape();
@@ -1228,7 +1251,7 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{});
 
 	this._renderFirstFrame();
 
-}).prototype = p = new cjs.MovieClip();
+}).prototype = p = new lib.AnMovieClip();
 p.nominalBounds = new cjs.Rectangle(283.3,479.7,2232.7999999999997,1171.6);
 // library properties:
 lib.properties = {
@@ -1248,7 +1271,7 @@ lib.properties = {
 
 (lib.Stage = function(canvas) {
 	createjs.Stage.call(this, canvas);
-}).prototype = p = new createjs.StageGL();
+}).prototype = p = new createjs.Stage();
 
 p.setAutoPlay = function(autoPlay) {
 	this.tickEnabled = autoPlay;
@@ -1316,19 +1339,27 @@ an.makeResponsive = function(isResp, respDim, isScale, scaleType, domContainers)
 			else if(scaleType==2) {					
 				sRatio = Math.max(xRatio, yRatio);				
 			}			
-		}			
+		}
 		domContainers[0].width = w * pRatio * sRatio;			
-		domContainers[0].height = h * pRatio * sRatio;			
+		domContainers[0].height = h * pRatio * sRatio;
 		domContainers.forEach(function(container) {				
 			container.style.width = w * sRatio + 'px';				
 			container.style.height = h * sRatio + 'px';			
-		});			
+		});
 		stage.scaleX = pRatio*sRatio;			
-		stage.scaleY = pRatio*sRatio;			
+		stage.scaleY = pRatio*sRatio;
 		lastW = iw; lastH = ih; lastS = sRatio;            
 		stage.tickOnUpdate = false;            
 		stage.update();            
 		stage.tickOnUpdate = true;		
+	}
+}
+an.handleSoundStreamOnTick = function(event) {
+	if(!event.paused){
+		var stageChild = stage.getChildAt(0);
+		if(!stageChild.paused){
+			stageChild.syncStreamSounds();
+		}
 	}
 }
 
