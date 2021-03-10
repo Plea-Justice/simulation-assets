@@ -21,3 +21,7 @@ $ sed -i 's/DB4EA2F77FBC49619D87EB89080157A4/DB4EA2F77FBC49619D87EB89080157A5/g'
 * The publishing script is run automatically by the console when a file is uploaded. If you need to do fine tuned customizations to the `.js` file, you may manually publish using the script in this repository.
 
 * The simulation is no longer backwards compatible with Adobe Animate 20.0.3 or below. All assets must be exported with Animate >=20.0.4.
+
+---
+
+Copyright (C) 2021, The Plea Justice Project. Licensed under GPLv3.
